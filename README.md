@@ -17,4 +17,6 @@ on Windows:
 
 *For MacOS its the same as linux*
 
+# Authors
+
 [![contributors](https://contrib.rocks/image?repo=abrik1/VirboxQuest)](https://github.com/abrik1/VirboxQuest/graphs/contributors)
