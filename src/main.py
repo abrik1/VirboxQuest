@@ -8,6 +8,7 @@ import sys
 
 CPATH = f"/home/{getlogin()}/.config/VirboxQuest/data.json"
 CONFIG = {"boxcoins": 0, "levels_completed": 0}
+STORE = {"VIM_MANUAL": ["Vim Cheatsheet", "A simple cheatsheet for vim", 10]} 
 
 def check_config():
     '''
@@ -41,6 +42,31 @@ def parse_config():
     else:
         print("\x1b[31m!\x1b[0m config error..")
         sys.exit(1)
-if __name__ == "__main__":
-    check_config()
-    parse_config()
+
+def store():
+    while True:
+        store_choice = input("\x1b[32m> \x1b[35mstore\x1b[0m: ")
+        if store_choice == "help":
+            print("\x1b[34mbuy\x1b[0m: buy an item\n\x1b[34mlist\x1b[0m: list available items\n\x1b[34mhelp\x1b[0m: show this menu")
+        elif store_choice == "list":
+            print("\x1b[36m!\x1b[0m available items:")
+        
+def startup():
+    print("Welcome to VirboxQuest...\nin this game of adventure you will be travelling through the world of Editoria... where people fight for editors...\n")
+    print("In this game you will face adventures to save a vim user \"Virbox\" is kidnapped by some VSC newbie.. you need to save him...\n")
+
+def level_1():
+    print("\x1b[36m!\x1b[0m knowing the basics of vim... go to the house of \"Vim Diesel\"")
+    while True:
+        choice = input("\x1b[32m>\x1b[0m command: ")
+        if choice == "help":
+            print("\x1b[34mmap\x1b[0m: view map\n\x1b[34mleft\x1b[0m: move left\n\x1b[34mback\x1b[0m: move back\n\x1b[34mfront\x1b[0m: move forward\n\x1b[34mhelp\x1b[0m: show this menu\n\x1b[34mchest\x1b[0m: view stuff\n\x1b[34mstore\x1b[0m: buy items")
+        elif choice == "store":
+            store()
+try:
+    if __name__ == "__main__":
+        check_config()
+        parse_config()
+        level_1()
+except KeyboardInterrupt:
+    print()
