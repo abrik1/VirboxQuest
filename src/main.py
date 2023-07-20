@@ -7,7 +7,7 @@ from os.path import isfile
 import sys
 
 CPATH = f"/home/{getlogin()}/.config/VirboxQuest/data.json"
-CONFIG = {"boxcoins": 0, "levels_completed": 0}
+CONFIG = {"boxcoins": 0, "levels_completed": 0, "items_owned": []}
 STORE = {"VIM_MANUAL": ["Vim Cheatsheet", "A simple cheatsheet for vim", 10], "ANTI_GRASS": ["Grass Avoider", "A tool to help from avoiding grass", 100]} 
 
 def check_config():
@@ -39,6 +39,7 @@ def parse_config():
     if "levels_completed" in list(config_data.keys()):
         CONFIG["boxcoins"] = config_data["boxcoins"]
         CONFIG["levels_completed"] = config_data["levels_completed"]
+        CONFIG["items_owned"] = config_data["items_owned"]
     else:
         print("\x1b[31m!\x1b[0m config error..")
         sys.exit(1)
@@ -56,19 +57,26 @@ def store():
         elif store_choice == "exit":
             break
         elif store_choice == "buy":
-            a = []
+            name = []
+            boxc_val = []
             for i in range(0, len(list(STORE.keys()))):
-                a.append({STORE[list(STORE.keys())[i]][0]: STORE[list(STORE.keys())[i]]})
+                name.append(STORE[list(STORE.keys())[i]][0])
+                boxc_val.append(STORE[list(STORE.keys())[i]][2])
                 print(f"\x1b[36m{i+1}\x1b[0m {STORE[list(STORE.keys())[i]][0]}\x1b[33m {STORE[list(STORE.keys())[i]][2]} - Boxcoins\x1b[0m")
             choice = int(input("\x1b[34m?\x1b[0m please enter the item's number: "))
-            if choice > len(a):
+            if choice > len(boxc_val):
                 print("\x1b[31m!\x1b[0m invalid choice")
             else:
-                print(a[choice])
-                if CONFIG['boxcoins'] >= a[choice][2]:
-                    pass
+                if CONFIG['boxcoins'] >= boxc_val[choice-1]:
+                    if name[choice-1] in CONFIG['items_owned']:
+                        print(f"\x1b[33m!\x1b[0m {name[choice-1]} in chest already..")
+                        pass
+                    else:
+                        print(f"\x1b[32m✓\x1b[0m {name[choice-1]} purchased")
+                        CONFIG['boxcoins'] = CONFIG['boxcoins'] - boxc_val[choice-1]
+                        CONFIG['items_owned'].append(name[choice-1])
                 else:
-                    print(f"\x1b[31m!\x1b[0m sorry, you cannot afford {a[choice]}")
+                    print(f"\x1b[31m!\x1b[0m sorry, you cannot afford {name[choice-1]}")
         else:
             print("\x1b[31m!\x1b[0m invalid choice")
         
