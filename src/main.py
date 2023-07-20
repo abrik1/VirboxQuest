@@ -8,7 +8,7 @@ import sys
 
 CPATH = f"/home/{getlogin()}/.config/VirboxQuest/data.json"
 CONFIG = {"boxcoins": 0, "levels_completed": 0}
-STORE = {"VIM_MANUAL": ["Vim Cheatsheet", "A simple cheatsheet for vim", 10]} 
+STORE = {"VIM_MANUAL": ["Vim Cheatsheet", "A simple cheatsheet for vim", 10], "ANTI_GRASS": ["Grass Avoider", "A tool to help from avoiding grass", 100]} 
 
 def check_config():
     '''
@@ -50,6 +50,11 @@ def store():
             print("\x1b[34mbuy\x1b[0m: buy an item\n\x1b[34mlist\x1b[0m: list available items\n\x1b[34mhelp\x1b[0m: show this menu")
         elif store_choice == "list":
             print("\x1b[36m!\x1b[0m available items:")
+            a = []
+            for i in range(0, len(list(STORE.keys()))):
+                print(i+1, STORE[list(STORE.keys())[i]][0],"\x1b[33m",STORE[list(STORE.keys())[i]][2] ,"- Boxcoins\x1b[0m")
+        elif store_choice == "exit":
+            break
         
 def startup():
     print("Welcome to VirboxQuest...\nin this game of adventure you will be travelling through the world of Editoria... where people fight for editors...\n")
