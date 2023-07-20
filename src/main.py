@@ -52,9 +52,25 @@ def store():
             print("\x1b[36m!\x1b[0m available items:")
             a = []
             for i in range(0, len(list(STORE.keys()))):
-                print(i+1, STORE[list(STORE.keys())[i]][0],"\x1b[33m",STORE[list(STORE.keys())[i]][2] ,"- Boxcoins\x1b[0m")
+                print(f"\x1b[36m{i+1}\x1b[0m {STORE[list(STORE.keys())[i]][0]}\x1b[33m {STORE[list(STORE.keys())[i]][2]} - Boxcoins\x1b[0m")
         elif store_choice == "exit":
             break
+        elif store_choice == "buy":
+            a = []
+            for i in range(0, len(list(STORE.keys()))):
+                a.append({STORE[list(STORE.keys())[i]][0]: STORE[list(STORE.keys())[i]]})
+                print(f"\x1b[36m{i+1}\x1b[0m {STORE[list(STORE.keys())[i]][0]}\x1b[33m {STORE[list(STORE.keys())[i]][2]} - Boxcoins\x1b[0m")
+            choice = int(input("\x1b[34m?\x1b[0m please enter the item's number: "))
+            if choice > len(a):
+                print("\x1b[31m!\x1b[0m invalid choice")
+            else:
+                print(a[choice])
+                if CONFIG['boxcoins'] >= a[choice][2]:
+                    pass
+                else:
+                    print(f"\x1b[31m!\x1b[0m sorry, you cannot afford {a[choice]}")
+        else:
+            print("\x1b[31m!\x1b[0m invalid choice")
         
 def startup():
     print("Welcome to VirboxQuest...\nin this game of adventure you will be travelling through the world of Editoria... where people fight for editors...\n")
