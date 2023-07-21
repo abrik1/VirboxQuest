@@ -1,6 +1,6 @@
-'''
+''' 
 the source code for VirboxQuest
-'''
+''' 
 from json import loads, dumps
 from os import getlogin, mkdir
 from os.path import isfile
@@ -63,20 +63,29 @@ def store():
                 name.append(STORE[list(STORE.keys())[i]][0])
                 boxc_val.append(STORE[list(STORE.keys())[i]][2])
                 print(f"\x1b[36m{i+1}\x1b[0m {STORE[list(STORE.keys())[i]][0]}\x1b[33m {STORE[list(STORE.keys())[i]][2]} - Boxcoins\x1b[0m")
-            choice = int(input("\x1b[34m?\x1b[0m please enter the item's number: "))
-            if choice > len(boxc_val):
-                print("\x1b[31m!\x1b[0m invalid choice")
-            else:
-                if CONFIG['boxcoins'] >= boxc_val[choice-1]:
-                    if name[choice-1] in CONFIG['items_owned']:
-                        print(f"\x1b[33m!\x1b[0m {name[choice-1]} in chest already..")
-                        pass
-                    else:
-                        print(f"\x1b[32m✓\x1b[0m {name[choice-1]} purchased")
-                        CONFIG['boxcoins'] = CONFIG['boxcoins'] - boxc_val[choice-1]
-                        CONFIG['items_owned'].append(name[choice-1])
+            try:
+                is_int = True
+                choice = int(input("\x1b[34m?\x1b[0m please enter the item's number: "))
+            except ValueError:
+                is_int = False
+                print("\x1b[31m!\x1b[0m please enter an integer")
+
+            if is_int == True:            
+                if choice > len(boxc_val):
+                    print("\x1b[31m!\x1b[0m invalid choice")
                 else:
-                    print(f"\x1b[31m!\x1b[0m sorry, you cannot afford {name[choice-1]}")
+                    if CONFIG['boxcoins'] >= boxc_val[choice-1]:
+                        if name[choice-1] in CONFIG['items_owned']:
+                            print(f"\x1b[33m!\x1b[0m {name[choice-1]} in chest already..")
+                            pass
+                        else:
+                            print(f"\x1b[32m✓\x1b[0m {name[choice-1]} purchased")
+                            CONFIG['boxcoins'] = CONFIG['boxcoins'] - boxc_val[choice-1]
+                            CONFIG['items_owned'].append(name[choice-1])
+                    else:
+                        print(f"\x1b[31m!\x1b[0m sorry, you cannot afford {name[choice-1]}")
+            else:
+                pass
         else:
             print("\x1b[31m!\x1b[0m invalid choice")
         
@@ -92,6 +101,17 @@ def level_1():
             print("\x1b[34mmap\x1b[0m: view map\n\x1b[34mleft\x1b[0m: move left\n\x1b[34mback\x1b[0m: move back\n\x1b[34mfront\x1b[0m: move forward\n\x1b[34mhelp\x1b[0m: show this menu\n\x1b[34mchest\x1b[0m: view stuff\n\x1b[34mstore\x1b[0m: buy items")
         elif choice == "store":
             store()
+        elif choice == "exit":
+            exit_game()
+        else:
+            print("\x1b[31m!\x1b[0m invalid choice")
+
+def exit_game():
+    with open(CPATH, 'w', encoding="utf-8") as config_save:
+        config_save.write(str(dumps(CONFIG)))
+    config_save.close()
+    exit()
+            
 try:
     if __name__ == "__main__":
         check_config()
