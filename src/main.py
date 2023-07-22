@@ -44,6 +44,20 @@ def parse_config():
         print("\x1b[31m!\x1b[0m config error..")
         sys.exit(1)
 
+def chest():
+    while True:
+        store_choice = input("\x1b[32m> \x1b[35mchest\x1b[0m: ")
+        if store_choice == "help":
+            print("\x1b[34mlist\x1b[0m: list items in chest\n\x1b[34mhelp\x1b[0m: show this menu\n\x1b[34mexit\x1b[0m: exit store mode")
+        elif store_choice == "exit":
+            break
+        elif store_choice == "list":
+            print("\x1b[36m!\x1b[0m items in chest:")
+            for i in range(0, len(CONFIG['items_owned'])):
+                print(f"\x1b[36m{i+1} \x1b[34m{CONFIG['items_owned'][i]}\x1b[0m")
+        else:
+            print("\x1b[31m!\x1b[0m invalid choice")
+        
 def store():
     while True:
         store_choice = input("\x1b[32m> \x1b[35mstore\x1b[0m: ")
@@ -103,6 +117,8 @@ def level_1():
             store()
         elif choice == "exit":
             exit_game()
+        elif choice == "chest":
+            chest()
         else:
             print("\x1b[31m!\x1b[0m invalid choice")
 
